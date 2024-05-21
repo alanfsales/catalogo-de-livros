@@ -8,9 +8,9 @@ import br.com.catalogo.service.ConsultaAPI;
 import br.com.catalogo.service.ConverteDados;
 
 import java.time.Year;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -28,8 +28,8 @@ public class Principal {
         int opcao = -1;
         while (opcao != 0){
             String menu = """
-                ----------------------------
-                ***Escolha uma das opções***
+                ------------------------------
+                *** Escolha uma das opções ***
                 1 - Buscar livros por título
                 2 - Listar livros registrados
                 3 - Listar Autores
@@ -37,31 +37,89 @@ public class Principal {
                 5 - Listar Livros em determinado Idioma
                 0 - Sair
                 """;
+            try {
+                System.out.println(menu);
+                opcao = leitura.nextInt();
+                leitura.nextLine();
 
-            System.out.println(menu);
-            opcao = leitura.nextInt();
+                switch (opcao){
+                    case 1:
+                        buscarLivro();
+                        break;
+                    case 2:
+                        listarLivros();
+                        break;
+                    case 3:
+                        listarAutores();
+                        break;
+                    case 4:
+                        listarAutoresVivosNoAno();
+                        break;
+                    case 5:
+                        listarLivrosPorIdioma();
+                        break;
+                    case 0:
+                        System.out.println("Saindo...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Entrada inválida. Por favor, insira um número inteiro.");
+                leitura.nextLine();
+            }
+        }
+    }
+
+    private void buscarLivro() {
+        System.out.println("Digite o nome do Livro: ");
+        var nomeLivro = leitura.nextLine();
+        System.out.println("Buscando...");
+        String enderecoBusca = endereco.concat(nomeLivro.replace(" ", "+").toLowerCase().trim());
+
+        String json = consultaAPI.buscar(enderecoBusca);
+        String jsonLivro = converteDados.extraiObjetoJson(json, "results");
+
+        List<LivroDTO> livrosDTO = converteDados.obterLista(jsonLivro, LivroDTO.class);
+
+        if (livrosDTO.size() > 0) {
+            Livro livro = new Livro(livrosDTO.get(0));
+
+            //Verifica se o Autor já está cadastrado
+            Autor autor = repository.buscarAutorPeloNome(livro.getAutor().getAutor());
+            if (autor != null) {
+                livro.setAutor(null);
+                repository.save(livro);
+                livro.setAutor(autor);
+            }
+            livro = repository.save(livro);
+            System.out.println(livro);
+        } else {
+            System.out.println("Livro não encontrado");
+        }
+    }
+
+    private void listarLivros() {
+        List<Livro> livros = repository.findAll();
+        livros.forEach(System.out::println);
+    }
+
+    private void listarAutores() {
+        List<Autor> autores = repository.buscarAutores();
+        autores.forEach(System.out::println);
+    }
+
+    private void listarAutoresVivosNoAno() {
+        try {
+            System.out.println("Digite o ano:");
+            int ano = leitura.nextInt();
             leitura.nextLine();
 
-            switch (opcao){
-                case 1:
-                    buscarLivro();
-                    break;
-                case 2:
-                    listarLivros();
-                    break;
-                case 3:
-                    listarAutores();
-                    break;
-                case 4:
-                    listarAutoresVivosNoAno();
-                    break;
-                case 5:
-                    listarLivrosPorIdioma();
-                    break;
-                case 0:
-                    System.out.println("Saindo...");
-                    break;
-            }
+            List<Autor> autores = repository.buscarAutoresVivosNoAno(Year.of(ano));
+            autores.forEach(System.out::println);
+        }catch (InputMismatchException e){
+            System.out.println("Entrada inválida. Por favor, insira um número inteiro.");
+            leitura.nextLine();
         }
     }
 
@@ -80,52 +138,5 @@ public class Principal {
         }else{
             System.out.println("Não exite livros nesse idioma cadastrado");
         }
-
-    }
-
-    private void listarAutoresVivosNoAno() {
-        System.out.println("Digite o ano:");
-        int ano = leitura.nextInt();
-        leitura.nextLine();
-
-        List<Autor> autores = repository.buscarAutoresVivosNoAno(Year.of(ano));
-        autores.forEach(System.out::println);
-
-    }
-
-    private void listarAutores() {
-        List<Autor> autores = repository.buscarAutores();
-        autores.forEach(System.out::println);
-    }
-
-    private void listarLivros() {
-        List<Livro> livros = repository.findAll();
-        livros.forEach(System.out::println);
-    }
-
-    private void buscarLivro() {
-        System.out.println("Digite o nome do Livro: ");
-        var nomeLivro = leitura.nextLine();
-        System.out.println("Buscando...");
-        String enderecoBusca = endereco.concat(nomeLivro.replace(" ", "+").toLowerCase().trim());
-
-        String json = consultaAPI.buscar(enderecoBusca);
-        String jsonLivro = converteDados.extraiObjetoJson(json, "results");
-
-        List<LivroDTO> livrosDTO = converteDados.obterLista(jsonLivro, LivroDTO.class);
-
-       if (livrosDTO.size() > 0){
-           Livro livro = new Livro(livrosDTO.get(0));
-
-           Autor autor = repository.buscarAutorPeloNome(livro.getAutor().getAutor());
-           if (autor != null){
-               livro.setAutor(autor);
-           }
-
-           livro = repository.save(livro);
-           System.out.println(livro);
-       }else {
-           System.out.println("Livro não encontrado");
-       }
     }
 }

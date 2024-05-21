@@ -19,7 +19,7 @@ public class Livro {
 
     private String titulo;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Autor autor;
 
     private String idioma;
