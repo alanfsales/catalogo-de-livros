@@ -81,11 +81,11 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "----- Autor -----" +
-                "\nAutor: " + autor +
-                "\nAno Nascimento: " + anoNascimento +
+        return  "------------------- Autor -----------------" +
+                "\nAutor:           " + autor +
+                "\nAno Nascimento:  " + anoNascimento +
                 "\nAno Falecimento: " + anoFalecimento +
-                "\nLivros: " + livros.stream().map(l -> l.getTitulo()).collect(Collectors.toList())+
-                "\n----------------\n";
+                "\nLivros:          " + livros.stream().map(l -> l.getTitulo()).collect(Collectors.toList())+
+                "\n-------------------------------------------\n";
     }
 }

@@ -28,14 +28,17 @@ public class Principal {
         int opcao = -1;
         while (opcao != 0){
             String menu = """
-                ------------------------------
-                *** Escolha uma das opções ***
-                1 - Buscar livros por título
+                \n-------------------------------------------
+                       *** Escolha uma das opções ***
+                -------------------------------------------
+                1 - Buscar livro por título
                 2 - Listar livros registrados
                 3 - Listar Autores
                 4 - Listar Autores vivos em determinado ano
                 5 - Listar Livros em determinado Idioma
+                6 - Exibir a quantidade de livros em um determinado idioma.
                 0 - Sair
+                -------------------------------------------
                 """;
             try {
                 System.out.println(menu);
@@ -57,6 +60,9 @@ public class Principal {
                         break;
                     case 5:
                         listarLivrosPorIdioma();
+                        break;
+                    case 6:
+                        quantidadeLivrosPorIdioma();
                         break;
                     case 0:
                         System.out.println("Saindo...");
@@ -138,5 +144,18 @@ public class Principal {
         }else{
             System.out.println("Não exite livros nesse idioma cadastrado");
         }
+    }
+
+    private void quantidadeLivrosPorIdioma() {
+        System.out.println("""
+                Digite o idioma para busca
+                es - espanhol
+                en - inglês
+                fr - francês
+                pt - português
+                """);
+        String idioma = leitura.nextLine();
+        Integer quantidadeIdioma = repository.countByIdioma(idioma);
+        System.out.printf("O idioma %s tem %d livros cadastrado\n", idioma, quantidadeIdioma);
     }
 }
