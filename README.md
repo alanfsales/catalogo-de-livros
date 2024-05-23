@@ -22,7 +22,6 @@ Os livros e autores serão buscados através de uma API específica e registrád
 - Jackson Databind
 - API Gutendex (https://gutendex.com/)
 
-
 ### Resultado
 ![Menu](https://github.com/alanfsales/assets/blob/main/Cat%C3%A1logo%20de%20Livros/Menu.png)
 
@@ -31,6 +30,14 @@ Os livros e autores serão buscados através de uma API específica e registrád
 ![Pastas pacotes e arquivos e classes do projeto](https://github.com/alanfsales/assets/blob/main/Cat%C3%A1logo%20de%20Livros/arquivos.png)
 
 ![Autores](https://github.com/alanfsales/assets/blob/main/Cat%C3%A1logo%20de%20Livros/autores.png)
+
+### Instalação
+Para executar a aplicação localmente, siga estas etapas:
+1. Clone este repositório.
+2. Certifique-se de ter a JDK do Java 17 ou superior instalado.
+3. Importe o projeto utilizando o Maven em uma IDE se sua preferida. 
+4. Configure o PostgreSQL atualizando as configurações no arquivo application.properties.
+5. Execute a classe CatalogoDeLivrosApplication.java.
 
 
 
