@@ -1,7 +1,9 @@
-# Catalogo de Livros 
+# Catalogo de Livros (LiterAlura)
+Este projeto é um desafio proposto no programa ONE - Oracle Next Education. Um programa de ensino realizado em parceria da Alura com a Oracle.
+
 ### Descrição do desafio
 Desenvolver um Catálogo de Livros que ofereça interação textual (via console) com os usuários, proporcionando no mínimo 5 opções de interação. 
-Os livros serão buscados através de uma API específica e registrádos em um banco de dados.
+Os livros e autores serão buscados através de uma API específica e registrádos em um banco de dados.
 
 ### Funcionalidades
 - Buscar livro por título
@@ -20,4 +22,16 @@ Os livros serão buscados através de uma API específica e registrádos em um b
 - Jackson Databind
 - API Gutendex (https://gutendex.com/)
 
-Todo: falta add as imagens
+
+### Resultado
+![Menu](https://github.com/alanfsales/assets/blob/main/Cat%C3%A1logo%20de%20Livros/Menu.png)
+
+![Cadastro de um livro](https://github.com/alanfsales/assets/blob/main/Cat%C3%A1logo%20de%20Livros/cad-livro.png)
+
+![Pastas pacotes e arquivos e classes do projeto](https://github.com/alanfsales/assets/blob/main/Cat%C3%A1logo%20de%20Livros/arquivos.png)
+
+![Autores](https://github.com/alanfsales/assets/blob/main/Cat%C3%A1logo%20de%20Livros/autores.png)
+
+
+
+
